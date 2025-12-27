@@ -1,4 +1,4 @@
-## 🔐 Password Reset Backend
+# 🔐 Password Reset Backend
 
 This is the backend service for the Password Reset Flow application.  
 It handles authentication, password reset via email, and secure token validation.

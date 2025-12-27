@@ -136,11 +136,23 @@ export const forgotPassword = async (req, res) => {
 
     await user.save();
 
-    await sendEmail({
-      email: user.email,
-      subject: "Password Reset Request",
-      message,
-    });
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Password Reset Request",
+        message,
+      });
+    } catch (emailError) {
+      console.error("EMAIL ERROR:", emailError);
+
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+      await user.save();
+
+      return res.status(500).json({
+        message: "Email could not be sent. Try again later.",
+      });
+    }
 
     res.status(200).json({
       message: "If the email exists, a reset link has been sent",
