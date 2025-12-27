@@ -16,6 +16,13 @@ app.use("/api/auth", authRoutes);
 connectDB();
 
 const PORT = process.env.PORT;
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Password Reset API is running 🚀",
+  });
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
