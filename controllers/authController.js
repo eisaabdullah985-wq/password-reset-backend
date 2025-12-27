@@ -137,11 +137,15 @@ export const forgotPassword = async (req, res) => {
     await user.save();
 
     try {
+      if (process.env.NODE_ENV === "production") {
+        console.log("🔐 Password reset link:", resetUrl);
+    } else {
       await sendEmail({
         email: user.email,
         subject: "Password Reset Request",
         message,
       });
+    }
     } catch (emailError) {
       console.error("EMAIL ERROR:", emailError);
 
